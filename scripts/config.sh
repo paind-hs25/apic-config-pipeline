@@ -27,7 +27,7 @@ APIC_GATEWAY_URL=`oc get routes -n ${APIC_NAMESPACE} | grep gateway | grep -v ma
 if [[ -z "${APIC_GATEWAY_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Gateway url"; exit 1; fi
 APIC_GATEWAY_MANAGER_URL=`oc get routes -n ${APIC_NAMESPACE} | grep gateway-manager | awk '{print $2}'`
 if [[ -z "${APIC_GATEWAY_MANAGER_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Gateway Manager url"; exit 1; fi
-APIC_ANALYTICS_CONSOLE_URL=`oc get routes -n ${APIC_NAMESPACE} | grep ac-endpoint | awk '{print $2}'`
+APIC_ANALYTICS_CONSOLE_URL=`oc get routes -n ${APIC_NAMESPACE} | grep ai-endpoint | awk '{print $2}'`
 if [[ -z "${APIC_ANALYTICS_CONSOLE_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Analytics Console url"; exit 1; fi
 APIC_PORTAL_DIRECTOR_URL=`oc get routes -n ${APIC_NAMESPACE} | grep portal-director | awk '{print $2}'`
 if [[ -z "${APIC_PORTAL_DIRECTOR_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Portal Director url"; exit 1; fi
@@ -58,7 +58,7 @@ then
   exit 1
 fi
 tar -zxvf toolkit-linux.tgz
-chmod +x apic-slim
+chmod +x apic
 
 # Get the IBM APIC Connect Cloud Manager Admin password
 APIC_ADMIN_PASSWORD=$(oc get secret $(oc get secrets -n ${APIC_NAMESPACE} | grep mgmt-admin-pass | awk '{print $1}') -n ${APIC_NAMESPACE} -o jsonpath='{.data.password}' | base64 -d)
@@ -70,11 +70,11 @@ echo "\"APIC_ADMIN_PASSWORD\":\"${APIC_ADMIN_PASSWORD}\"" >> config.json
 echo "}" >> config.json
 
 # Login to IBM API Connect Cloud Manager through the APIC CLI
-./apic-slim login --server ${APIC_ADMIN_URL} --username admin --password ''"${APIC_ADMIN_PASSWORD}"'' --realm ${ADMIN_REALM} --accept-license > /dev/null
+./apic login --server ${APIC_ADMIN_URL} --username admin --password ''"${APIC_ADMIN_PASSWORD}"'' --realm ${ADMIN_REALM} --accept-license > /dev/null
 if [[ $? -ne 0 ]]; then echo "[ERROR][config.sh] - An error ocurred login into IBM API Connect using the APIC CLI"; exit 1; fi
 
 # Get the toolkit credentials
-./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL} --format json > toolkit-creds.json
+./apic cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL} --format json > toolkit-creds.json
 if [[ $? -ne 0 ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Toolkit Credentials using the APIC CLI"; exit 1; fi
 
 # DEBUG information
