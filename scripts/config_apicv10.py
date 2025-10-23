@@ -211,7 +211,7 @@ try:
 
     # Finally, we can actually make the REST call to get the Default Gateway Service registered
 
-    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services'
+    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/custom-availability-zone/gateway-services'
     
     # Create the data object
     data = {}
@@ -257,7 +257,7 @@ try:
     print(info(7) + "# Step 7 - Register the Default Analytics Service #")
     print(info(7) + "###################################################")
 
-    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/analytics-services'
+    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/custom-availability-zone/analytics-services'
     
     # Create the data object
     data = {}
@@ -289,7 +289,7 @@ try:
     print(info(8) + "# Step 8 - Associate Default Analytics Service with Default Gateway Service #")
     print(info(8) + "#############################################################################")
 
-    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services/default-gateway-service'
+    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/custom-availability-zone/gateway-services/default-gateway-service'
     
     # Create the data object
     data = {}
@@ -314,7 +314,7 @@ try:
     print(info(9) + "# Step 9 - Register the Default Portal Service #")
     print(info(9) + "################################################")
 
-    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/portal-services'
+    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/custom-availability-zone/portal-services'
     
     # Create the data object
     data = {}
